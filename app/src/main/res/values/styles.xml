@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="Widget.Theme.OCR.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.OCR.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="add_invoice_textView">
+        <item name="borderWidth">1dp</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">OCR</string>
+    <string name="action_settings">Settings</string>
+    <string name="take_photo">TAKE A PHOTO</string>
+    <string name="standard_invoice_add">Dodaj</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="photoPreview">Photo preview</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_image_preview">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="menu_desktop">Pulpit</string>
+    <string name="menu_invoices">Faktury</string>
+    <string name="add_invoice">Dodaj fakturę</string>
+    <string name="menu_storehouse">Magazyn</string>
+    <string name="menu_contractors">Kontrahenci</string>
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_help">Pomoc</string>
+    <string name="menu_information">Informacje</string>
+    <!--ADD INVOICE-->
+    <string name="invoice_type"><u>Typ faktury</u></string>
+    <string name="invoice_number"><u>Numer</u></string>
+    <string name="create_date"><u>Data wystawienia</u> </string>
+    <string name="create_place"><u>Miejsce wystawienia</u></string>
+    <string name="sale_date"><u>Data sprzedaży</u></string>
+    <string name="seller"><u>Sprzedawca</u></string>
+    <string name="name"><u>Nazwa</u></string>
+    <string name="nip"><u>NIP</u></string>
+    <string name="address_1"><u>Ulica, numer domu / loklal</u></string>
+    <string name="city"><u>Miasto</u></string>
+    <string name="postal_code"><u>Kod pocztowy</u></string>
+    <string name="buyer"><u>Nabywca</u></string>
+    <string name="hint_buyer_name">Nazwa nabywcy</string>
+    <string name="hint_buyer_nip">NIP nabywcy</string>
+    <string name="hint_buyer_address">Adres nabywcy</string>
+    <string name="account_number"><u>Numer konta</u></string>
+    <string name="save">Zapisz</string>
+    <string name="hint_seller_address">Adres sprzedawcy</string>
+    <string name="hint_seller_NIP">NIP sprzedawcy</string>
+    <string name="hint_seller_name">Nazwa sprzedawcy</string>
+    <string name="quantity"><u>Ilość</u></string>
+    <string name="units"><u>Jednostka</u></string>
+    <string name="netto_price"><u>Cena netto</u></string>
+    <string name="vat"><u>VAT %</u></string>
+    <string name="brutto_price"><u>Cena brutto</u></string>
+    <string-array name="invoice_types">
+        <item>Faktura</item>
+        <item>Faktura Proforma</item>
+        <item>Faktura korygująca</item>
+    </string-array>
+    <string-array name="units">
+        <item>sztuka</item>
+        <item>godzina</item>
+        <item>dzień</item>
+        <item>miesiąc</item>
+        <item>kilometr</item>
+        <item>m2</item>
+        <item>kilogram</item>
+        <item>własna</item>
+    </string-array>
+    <string-array name="vat">
+        <item>23</item>
+        <item>8</item>
+        <item>7</item>
+        <item>5</item>
+        <item>0</item>
+    </string-array>
+
+
+</resources>
+

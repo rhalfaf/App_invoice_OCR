@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainActivityFragment">
+    <fragment
+        android:id="@+id/mainActivityFragment"
+        android:name="pl.softr.ocr.MainActivityFragment"
+        android:label="Pulpit"
+        tools:layout="@layout/fragment_main_activity">
+        <action
+            android:id="@+id/navigate_to_invoices_fragment"
+            app:destination="@id/invoiceMainView2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/invoiceMainView2"
+        android:name="pl.softr.ocr.InvoiceMainView"
+        android:label="Faktury"
+        tools:layout="@layout/fragment_invoice" />
+    <fragment
+        android:id="@+id/addInvoice2"
+        android:name="pl.softr.ocr.AddInvoice"
+        android:label="@string/add_invoice"
+        tools:layout="@layout/fragment_add_invoice" />
+</navigation>
