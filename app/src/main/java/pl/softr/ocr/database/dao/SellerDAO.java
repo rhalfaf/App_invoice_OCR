@@ -15,7 +15,7 @@ public interface SellerDAO {
     @Query("select * from seller")
     List<Seller> getAll();
 
-    @Query("select * from seller where id=:id")
+    @Query("select * from seller where sellerId=:id")
     Seller findById(int id);
 
     @Query("select * from seller where seller_name = :name")

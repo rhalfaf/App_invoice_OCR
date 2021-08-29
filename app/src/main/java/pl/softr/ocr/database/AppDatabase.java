@@ -9,16 +9,26 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pl.softr.ocr.database.dao.BuyerDAO;
+import pl.softr.ocr.database.dao.InvoiceDAO;
+import pl.softr.ocr.database.dao.InvoiceGeneralInfoDAO;
 import pl.softr.ocr.database.dao.SellerDAO;
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
+import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.database.entity.Seller;
 
-@Database(entities = {Seller.class, Buyer.class, InvoiceGeneralInfo.class, Invoice.class}, version = 1)
+@Database(entities = {Seller.class, Buyer.class, InvoiceGeneralInfo.class, Invoice.class, InvoicePosition.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract SellerDAO sellerDAO();
+
+    public abstract BuyerDAO buyerDAO();
+
+    public abstract InvoiceGeneralInfoDAO infoDAO();
+
+    public abstract InvoiceDAO invoiceDAO();
 
     public static volatile AppDatabase INSTANCE;
     private static final int THREADS_NUMBER = 4;

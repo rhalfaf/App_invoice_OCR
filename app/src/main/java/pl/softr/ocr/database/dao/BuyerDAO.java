@@ -12,8 +12,12 @@ import pl.softr.ocr.database.entity.Buyer;
 
 @Dao
 public interface BuyerDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addBuyer(Buyer buyer);
+
+    @Query("select * from Buyer where buyerId=:id")
+    Buyer getBuyerById(long id);
 
     @Delete
     void deleteBuyer(Buyer buyer);

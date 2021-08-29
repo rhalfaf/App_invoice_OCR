@@ -60,6 +60,7 @@
     <string name="netto_price"><u>Cena netto</u></string>
     <string name="vat"><u>VAT %</u></string>
     <string name="brutto_price"><u>Cena brutto</u></string>
+    <string name="cancel">Anuluj</string>
     <string-array name="invoice_types">
         <item>Faktura</item>
         <item>Faktura Proforma</item>

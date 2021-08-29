@@ -12,13 +12,13 @@
         android:layout_margin="5dp"
         android:text="@string/invoice_type"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/spInvoiceType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spInvoiceType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -36,13 +36,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/invoice_number"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/etInvoiceNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spInvoiceType" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etInvoiceNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -60,13 +60,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/create_date"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
+        app:layout_constraintBottom_toTopOf="@+id/etInvoiceCteateDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/etInvoiceNumber" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/etInvoiceCteateDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -88,10 +88,10 @@
         android:text="@string/create_place"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/etInvoiceCteateDate" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/etInvoiceCreatePleace"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -110,13 +110,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/sale_date"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate2"
+        app:layout_constraintBottom_toTopOf="@+id/etSellDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/etInvoiceCreatePleace" />
 
     <EditText
-        android:id="@+id/editTextDate2"
+        android:id="@+id/etSellDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"

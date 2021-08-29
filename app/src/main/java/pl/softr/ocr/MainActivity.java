@@ -36,7 +36,12 @@ import java.io.File;
 import java.util.Arrays;
 
 import pl.softr.ocr.database.AppDatabase;
+import pl.softr.ocr.database.entity.Buyer;
+import pl.softr.ocr.database.entity.CompleteInvoice;
+import pl.softr.ocr.database.entity.Invoice;
+import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 import pl.softr.ocr.database.entity.Seller;
+import pl.softr.ocr.database.repositories.InvoiceRepository;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,14 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private NavigationView navigationView;
     private NavHostFragment navHostFragment;
-
-
-    private static int CAMERA_REQUEST_CODE = 101;
-
-    private Button captureImage;
-    private Button captureImage2;
-    private File outputDirectory;
-    private Uri photoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
         // Handle Navigation item clicks
         // This works with no further action on your part if the menu and destination id’s match.
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        AppDatabase db = AppDatabase.getInstance(this);
-        AppDatabase.writeDatabaseExecutor.execute(() -> {
-            db.sellerDAO().addSeller(new Seller());
-        });
     }
 
     @Override

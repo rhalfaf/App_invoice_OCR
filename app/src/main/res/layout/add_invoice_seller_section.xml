@@ -23,13 +23,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/name"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
+        app:layout_constraintBottom_toTopOf="@+id/etSellerName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/etSellerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -49,10 +49,10 @@
         android:text="@string/nip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerName" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/etSellerNIP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -72,10 +72,10 @@
         android:text="@string/address_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerNIP" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/etSellerAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -95,10 +95,10 @@
         android:text="@string/postal_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName6" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerAddress" />
 
     <EditText
-        android:id="@+id/editTextTextPostalAddress"
+        android:id="@+id/etSellerPostalCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -117,10 +117,10 @@
         android:text="@string/city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerPostalCode" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName7"
+        android:id="@+id/etSellerCity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -140,10 +140,10 @@
         android:text="@string/account_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerCity" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/etSellerBankAccountNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -156,13 +156,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/cbSaveSeller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/etSellerBankAccountNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

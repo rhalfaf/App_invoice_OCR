@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/etBuyerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -49,10 +49,10 @@
         android:text="@string/nip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintTop_toBottomOf="@+id/etBuyerName" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName8"
+        android:id="@+id/etBuyerNIP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -73,10 +73,10 @@
         android:text="@string/address_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
+        app:layout_constraintTop_toBottomOf="@+id/etBuyerNIP" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName9"
+        android:id="@+id/etBuyerAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -97,10 +97,10 @@
         android:text="@string/postal_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName9" />
+        app:layout_constraintTop_toBottomOf="@+id/etBuyerAddress" />
 
     <EditText
-        android:id="@+id/editTextTextPostalAddress2"
+        android:id="@+id/etBuyerPostalCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -120,10 +120,10 @@
         android:text="@string/city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/etBuyerPostalCode" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName10"
+        android:id="@+id/etBuyerCity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"

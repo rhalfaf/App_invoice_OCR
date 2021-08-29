@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_bottom_buttons.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_buyer_section.xml" value="0.264" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_invoice_detail_section.xml" value="0.264" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_positions.xml" value="0.26541554959785524" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_positions_item.xml" value="0.4" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_seller_section.xml" value="0.264" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/fragment_add_invoice.xml" value="0.2929171668667467" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
