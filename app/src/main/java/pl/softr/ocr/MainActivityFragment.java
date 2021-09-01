@@ -23,8 +23,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MainActivityFragment extends Fragment {
 
-    private Button invoice;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -75,13 +73,6 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        invoice = view.findViewById(R.id.invoice);
-        invoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavDirections directions = MainActivityFragmentDirections.navigateToInvoicesFragment();
-                NavHostFragment.findNavController(MainActivityFragment.this).navigate(directions);
-            }
-        });
+
     }
 }

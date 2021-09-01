@@ -14,12 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import pl.softr.ocr.R;
+import pl.softr.ocr.database.entity.InvoicePosition;
 
 public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvoicePositionsItemAdapter.ViewHolder> {
 
-    private List<PositionsItemModel> dataSet;
+    private List<InvoicePosition> dataSet;
 
-    public AddInvoicePositionsItemAdapter(List<PositionsItemModel> dataSet) {
+    public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet) {
+        this.dataSet = dataSet;
+    }
+
+    public List<InvoicePosition> getDataSet() {
+        return dataSet;
+    }
+
+    public void setDataSet(List<InvoicePosition> dataSet) {
         this.dataSet = dataSet;
     }
 
@@ -37,10 +46,10 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
         holder.getPositionQuantity().setText(String.valueOf(dataSet.get(position).getPositionQuantity()));
         holder.getPositionQuantityLabelWrap().setText(String.valueOf(dataSet.get(position).getPositionQuantity()));
         holder.getPositionUnitLabelWrap().setText(holder.getPositionUnit().getSelectedItem().toString());
-        holder.getPositionNetPrice().setText(String.valueOf(dataSet.get(position).getPriceNet()));
-        holder.getPositionNetPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getPriceNet()));
-        holder.getPositionGrossPrice().setText(String.valueOf(dataSet.get(position).getPriceGross()));
-        holder.getPositionGrossPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getPriceGross()));
+        holder.getPositionNetPrice().setText(String.valueOf(dataSet.get(position).getNetPrice()));
+        holder.getPositionNetPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getNetPrice()));
+        holder.getPositionGrossPrice().setText(String.valueOf(dataSet.get(position).getGrossPrice()));
+        holder.getPositionGrossPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getGrossPrice()));
         holder.getPositionVatLabelWrap().setText(holder.getPositionVat().getSelectedItem().toString());
         holder.wrap.setOnClickListener(new View.OnClickListener() {
             @Override

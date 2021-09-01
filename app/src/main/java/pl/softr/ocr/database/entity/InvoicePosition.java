@@ -24,6 +24,8 @@ public class InvoicePosition {
     private Double netPrice;
     @ColumnInfo(name = "VAT")
     private Double VAT;
+    @ColumnInfo(name = "invoice_id")
+    private long invoiceId;
 
     public long getPositionId() {
         return positionId;
@@ -53,6 +55,10 @@ public class InvoicePosition {
         return VAT;
     }
 
+    public long getInvoiceId() {
+        return invoiceId;
+    }
+
     public void setPositionId(long positionId) {
         this.positionId = positionId;
     }
@@ -79,5 +85,9 @@ public class InvoicePosition {
 
     public void setVAT(Double VAT) {
         this.VAT = VAT;
+    }
+
+    public void setInvoiceId(long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 }

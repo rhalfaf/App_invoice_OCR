@@ -29,8 +29,8 @@ public class CompleteInvoice {
     public Buyer buyer;
 
     @Relation(
-            parentColumn = "invoicePositionId",
-            entityColumn = "position_id"
+            parentColumn = "id",
+            entityColumn = "invoice_id"
     )
     public List<InvoicePosition> positions;
 
@@ -48,6 +48,10 @@ public class CompleteInvoice {
 
     public Buyer getBuyer() {
         return buyer;
+    }
+
+    public List<InvoicePosition> getPositions() {
+        return positions;
     }
 
     public CompleteInvoice() {

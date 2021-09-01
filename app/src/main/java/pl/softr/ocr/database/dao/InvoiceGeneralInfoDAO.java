@@ -10,7 +10,7 @@ import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 public interface InvoiceGeneralInfoDAO {
 
     @Insert
-    void addInvoiceGeneralInfo(InvoiceGeneralInfo info);
+    long insert(InvoiceGeneralInfo info);
 
     @Query("select * from invoicegeneralinfo where generalInfoId=:id")
     InvoiceGeneralInfo getInfoById(long id);
