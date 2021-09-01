@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -16,12 +18,16 @@ import android.widget.Button;
 
 import org.jetbrains.annotations.NotNull;
 
+import pl.softr.ocr.databinding.FragmentMainActivityBinding;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainActivityFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class MainActivityFragment extends Fragment {
+
+    private FragmentMainActivityBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,13 +72,19 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_activity, container, false);
+        binding = FragmentMainActivityBinding.inflate(inflater,container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        binding.btnAddInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = MainActivityFragmentDirections.actionMainActivityFragmentToAddInvoice2();
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
     }
 }

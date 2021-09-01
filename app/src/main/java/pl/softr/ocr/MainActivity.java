@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -42,6 +43,8 @@ import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 import pl.softr.ocr.database.entity.Seller;
 import pl.softr.ocr.database.repositories.InvoiceRepository;
+import pl.softr.ocr.databinding.ActivityMainBinding;
+import pl.softr.ocr.databinding.FragmentMainActivityBinding;
 
 public class MainActivity extends AppCompatActivity {
 
