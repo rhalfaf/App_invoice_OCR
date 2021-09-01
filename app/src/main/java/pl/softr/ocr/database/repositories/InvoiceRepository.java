@@ -2,10 +2,13 @@ package pl.softr.ocr.database.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import pl.softr.ocr.database.AppDatabase;
 import pl.softr.ocr.database.dao.BuyerDAO;
 import pl.softr.ocr.database.dao.InvoiceDAO;
 import pl.softr.ocr.database.dao.InvoiceGeneralInfoDAO;
+import pl.softr.ocr.database.dao.InvoicePositionDAO;
 import pl.softr.ocr.database.dao.SellerDAO;
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
@@ -19,6 +22,7 @@ public class InvoiceRepository {
     private BuyerDAO buyerDAO;
     private InvoiceGeneralInfoDAO generalInfoDAO;
     private InvoiceDAO invoiceDAO;
+    private InvoicePositionDAO invoicePositionDAO;
 
     public InvoiceRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
@@ -26,17 +30,24 @@ public class InvoiceRepository {
         buyerDAO = db.buyerDAO();
         generalInfoDAO = db.infoDAO();
         invoiceDAO = db.invoiceDAO();
+        invoicePositionDAO = db.invoicePositionDAO();
     }
 
-    public void addInvoice(CompleteInvoice invoice) {
-        AppDatabase.writeDatabaseExecutor.execute( () -> {
+    public void saveInvoice(CompleteInvoice invoice) {
+        AppDatabase.writeDatabaseExecutor.execute(() -> {
             Seller seller = invoice.getSeller();
-            sellerDAO.addSeller(seller);
+            long sellerId = sellerDAO.insert(seller);
             Buyer buyer = invoice.getBuyer();
-            buyerDAO.addBuyer(buyer);
+            long buyerId = buyerDAO.insert(buyer);
             InvoiceGeneralInfo generalInfo = invoice.getGeneralInfo();
-            generalInfoDAO.addInvoiceGeneralInfo(generalInfo);
-            invoiceDAO.addCompeteInvoice(new Invoice(generalInfo.getGeneralInfoId(),seller.getSellerId(),buyer.getBuyerId()));
+            long generalInfoId = generalInfoDAO.insert(generalInfo);
+            long invoiceId = invoiceDAO.addCompeteInvoice(new Invoice(generalInfoId, sellerId, buyerId));
+            invoice.getPositions().forEach(position -> position.setInvoiceId(invoiceId));
+            invoicePositionDAO.saveAll(invoice.getPositions());
         });
+    }
+
+    public LiveData<CompleteInvoice> getInvoiceById(long id) {
+        return invoiceDAO.getById(id);
     }
 }

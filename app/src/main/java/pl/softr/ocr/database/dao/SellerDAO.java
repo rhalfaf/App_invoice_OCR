@@ -25,7 +25,7 @@ public interface SellerDAO {
     Seller findByCity(String city);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addSeller(Seller seller);
+    long insert(Seller seller);
 
     @Delete
     void deleteSellerById(Seller seller);

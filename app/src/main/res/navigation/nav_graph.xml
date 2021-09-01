@@ -12,8 +12,8 @@
         <action
             android:id="@+id/navigate_to_invoices_fragment"
             app:destination="@id/invoiceMainView2"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_invoice" />
     <fragment
         android:id="@+id/addInvoice2"
-        android:name="pl.softr.ocr.invoices.AddInvoice"
+        android:name="pl.softr.ocr.invoices.addInvoice.AddInvoiceFragment"
         android:label="@string/add_invoice"
         tools:layout="@layout/fragment_add_invoice" />
 </navigation>

@@ -14,7 +14,7 @@ import pl.softr.ocr.database.entity.Buyer;
 public interface BuyerDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addBuyer(Buyer buyer);
+    long insert(Buyer buyer);
 
     @Query("select * from Buyer where buyerId=:id")
     Buyer getBuyerById(long id);

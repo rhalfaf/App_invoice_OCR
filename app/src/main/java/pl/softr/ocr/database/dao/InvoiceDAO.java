@@ -1,5 +1,6 @@
 package pl.softr.ocr.database.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -13,7 +14,7 @@ public interface InvoiceDAO {
 
     @Transaction
     @Query("select * from invoice where id=:id")
-    CompleteInvoice getById(long id);
+    LiveData<CompleteInvoice> getById(long id);
 
     @Transaction
     @Query("select * from invoice")
@@ -21,6 +22,6 @@ public interface InvoiceDAO {
 
     @Transaction
     @Insert
-    void addCompeteInvoice(Invoice invoice);
+    long addCompeteInvoice(Invoice invoice);
 
 }

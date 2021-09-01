@@ -14,7 +14,6 @@ public class Invoice {
     public long generalInfoId;
     public long sellerId;
     public long buyerId;
-    public long invoicePositionId;
 
     public Invoice() {
     }
