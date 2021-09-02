@@ -6,7 +6,7 @@
     app:startDestination="@id/mainActivityFragment">
     <fragment
         android:id="@+id/mainActivityFragment"
-        android:name="pl.softr.ocr.MainActivityFragment"
+        android:name="pl.softr.ocr.mainActivity.MainFragment"
         android:label="Pulpit"
         tools:layout="@layout/fragment_main_activity">
         <action
