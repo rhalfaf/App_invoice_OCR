@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -16,10 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
@@ -27,8 +23,10 @@ import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.database.entity.Seller;
-import pl.softr.ocr.database.repositories.InvoiceRepository;
 import pl.softr.ocr.databinding.FragmentAddInvoiceBinding;
+import pl.softr.ocr.utils.DataPickerDialogFragment;
+import pl.softr.ocr.utils.DateActual;
+import pl.softr.ocr.utils.OnDateSelectedListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +96,10 @@ public class AddInvoiceFragment extends Fragment {
             adapter.setDataSet(positions);
         });
         binding.addInvoiceBottomButtons.saveInvoice.setOnClickListener(saveInvoiceClick);
+        binding.invoiceDetailsInclude.etInvoiceCreateDate.setText(DateActual.getDateFormatted(Calendar.getInstance()));
+        binding.invoiceDetailsInclude.btnCreateDate.setOnClickListener(setCreateDate);
+        binding.invoiceDetailsInclude.etSellDate.setText(DateActual.getDateFormatted(Calendar.getInstance()));
+        binding.invoiceDetailsInclude.btnSellDateCalendar.setOnClickListener(setSellDate);
         binding.positionsList.btnAddInvoicePosition.setOnClickListener(addInvoicePosition);
         binding.addInvoiceBottomButtons.cancelEdit.setOnClickListener(cancelClick);
 
@@ -116,7 +118,19 @@ public class AddInvoiceFragment extends Fragment {
         adapter.notifyItemChanged(index);
     };
 
+    private View.OnClickListener setCreateDate = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showDatePicker(createDateListener);
+        }
+    };
 
+    private View.OnClickListener setSellDate =new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        showDatePicker(sellDateListener);
+        }
+    };
 
     @Override
     public void onDestroyView() {
@@ -127,8 +141,8 @@ public class AddInvoiceFragment extends Fragment {
     private InvoiceGeneralInfo readGeneralInfo() {
         String invoiceType = binding.invoiceDetailsInclude.spInvoiceType.getSelectedItem().toString();
         String invoiceNumber = binding.invoiceDetailsInclude.etInvoiceNumber.getText().toString();
-        String createDate = binding.invoiceDetailsInclude.etInvoiceCteateDate.getText().toString();
-        String createPlace = binding.invoiceDetailsInclude.etInvoiceCreatePleace.getText().toString();
+        String createDate = binding.invoiceDetailsInclude.etInvoiceCreateDate.getText().toString();
+        String createPlace = binding.invoiceDetailsInclude.etInvoiceCreatePlace.getText().toString();
         String sellDate = binding.invoiceDetailsInclude.etSellDate.getText().toString();
         return new InvoiceGeneralInfo(invoiceType, invoiceNumber, createDate, createPlace, sellDate);
     }
@@ -155,4 +169,24 @@ public class AddInvoiceFragment extends Fragment {
     private List<InvoicePosition> readPositions() {
         return adapter.getDataSet();
     }
+
+    private void showDatePicker(OnDateSelectedListener listener) {
+        DataPickerDialogFragment dialogFragment = new DataPickerDialogFragment();
+        dialogFragment.setDateSelectedListener(listener);
+        dialogFragment.show(getParentFragmentManager(), "data picker");
+    }
+
+    OnDateSelectedListener createDateListener = new OnDateSelectedListener() {
+        @Override
+        public void onDateSelect(Calendar c) {
+            binding.invoiceDetailsInclude.etInvoiceCreateDate.setText(DateActual.getDateFormatted(c));
+        }
+    };
+
+    OnDateSelectedListener sellDateListener = new OnDateSelectedListener() {
+        @Override
+        public void onDateSelect(Calendar c) {
+            binding.invoiceDetailsInclude.etSellDate.setText(DateActual.getDateFormatted(c));
+        }
+    };
 }

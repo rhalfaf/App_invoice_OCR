@@ -5,13 +5,14 @@
       <map>
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/button_circle.xml" value="0.16875" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.16875" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/ic_baseline_calendar_today_36.xml" value="0.2703125" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/ic_contractors.xml" value="0.2703125" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/ic_invoices.xml" value="0.16875" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/drawable/ic_invoices_white.xml" value="0.16875" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_bottom_buttons.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_buyer_section.xml" value="0.264" />
-        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_invoice_detail_section.xml" value="0.264" />
+        <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_invoice_detail_section.xml" value="0.4" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_positions.xml" value="0.26541554959785524" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_positions_item.xml" value="0.4" />
         <entry key="..\:/Users/Radek/AndroidStudioProjects/OCR/app/src/main/res/layout/add_invoice_seller_section.xml" value="0.264" />

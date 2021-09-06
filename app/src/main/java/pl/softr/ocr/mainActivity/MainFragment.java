@@ -81,8 +81,10 @@ public class MainFragment extends Fragment {
     View.OnClickListener addInvoiceClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            NavDirections action = MainActivityFragmentDirections.actionMainActivityFragmentToAddInvoice2();
+            NavDirections action = MainFragmentDirections.actionMainActivityFragmentToAddInvoice2();
             Navigation.findNavController(v).navigate(action);
         }
     };
+
+
 }

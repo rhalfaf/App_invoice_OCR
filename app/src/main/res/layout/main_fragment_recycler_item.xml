@@ -9,17 +9,19 @@
         android:id="@+id/textView26"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="FV/7/1/21"
         app:layout_constraintBottom_toTopOf="@+id/textView34"
-        app:layout_constraintEnd_toStartOf="@+id/textView33"
+        app:layout_constraintEnd_toStartOf="@+id/tvInvoiceAmount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView33"
+        android:id="@+id/tvInvoiceAmount"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="TextView"
+        android:gravity="center"
+        android:text="225,25 PLN"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/textView34"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView26"
@@ -30,8 +32,8 @@
         android:id="@+id/textView34"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/textView33"
+        android:text="Example Buyer"
+        app:layout_constraintEnd_toStartOf="@+id/tvInvoiceAmount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 </androidx.constraintlayout.widget.ConstraintLayout>
