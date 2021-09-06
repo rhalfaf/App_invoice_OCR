@@ -6,9 +6,9 @@
     app:startDestination="@id/mainActivityFragment">
     <fragment
         android:id="@+id/mainActivityFragment"
-        android:name="pl.softr.ocr.mainActivity.MainFragment"
+        android:name="pl.softr.ocr.desktop.MainFragment"
         android:label="Pulpit"
-        tools:layout="@layout/fragment_main_activity">
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/navigate_to_invoices_fragment"
             app:destination="@id/invoiceMainView2"

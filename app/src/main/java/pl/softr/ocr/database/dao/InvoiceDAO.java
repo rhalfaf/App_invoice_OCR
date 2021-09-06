@@ -26,4 +26,6 @@ public interface InvoiceDAO {
     @Insert
     long addCompeteInvoice(Invoice invoice);
 
+    @Query("select * from invoice order by id desc limit :numberOfInvoices")
+    LiveData<List<CompleteInvoice>> getLastInvoices(int numberOfInvoices);
 }

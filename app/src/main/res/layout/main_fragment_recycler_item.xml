@@ -6,11 +6,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView26"
+        android:id="@+id/tvInvoiceSymbol"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="FV/7/1/21"
-        app:layout_constraintBottom_toTopOf="@+id/textView34"
+        app:layout_constraintBottom_toTopOf="@+id/tvBuyerName"
         app:layout_constraintEnd_toStartOf="@+id/tvInvoiceAmount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,18 +22,18 @@
         android:gravity="center"
         android:text="225,25 PLN"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/textView34"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBuyerName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView26"
+        app:layout_constraintStart_toEndOf="@+id/tvInvoiceSymbol"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.3" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/tvBuyerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Example Buyer"
         app:layout_constraintEnd_toStartOf="@+id/tvInvoiceAmount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInvoiceSymbol" />
 </androidx.constraintlayout.widget.ConstraintLayout>

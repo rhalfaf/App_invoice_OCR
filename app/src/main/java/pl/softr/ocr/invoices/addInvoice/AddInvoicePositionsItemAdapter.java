@@ -97,6 +97,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         private final EditText positionName;
         private final TextView positionNameLabelWrap;
         private final EditText positionQuantity;

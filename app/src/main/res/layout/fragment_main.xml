@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainActivity.MainFragment" >
+    tools:context=".desktop.MainFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             android:layout_marginBottom="60dp"
             android:background="@drawable/button_circle"
             android:src="@drawable/ic_invoices_white"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/rvLastInvoices"
             app:layout_constraintEnd_toStartOf="@+id/imageButton8"
             app:layout_constraintStart_toEndOf="@+id/imageButton2"
             app:layout_constraintTop_toBottomOf="@+id/btnAddInvoice"
@@ -72,7 +72,7 @@
             android:layout_marginBottom="60dp"
             android:background="@drawable/button_circle"
             android:src="@drawable/ic_contractors"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/rvLastInvoices"
             app:layout_constraintEnd_toStartOf="@+id/imageButton7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnInvoices"
@@ -87,14 +87,14 @@
             android:layout_marginBottom="60dp"
             android:background="@drawable/button_circle"
             android:src="@drawable/ic_invoices_white"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/rvLastInvoices"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageButton7"
             app:layout_constraintTop_toBottomOf="@+id/imageButton6"
             app:tint="@color/light_blue_600" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rvLastInvoices"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

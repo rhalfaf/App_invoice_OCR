@@ -1,4 +1,4 @@
-package pl.softr.ocr.mainActivity;
+package pl.softr.ocr.desktop;
 
 import android.app.Application;
 
@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import pl.softr.ocr.database.entity.CompleteInvoice;
-import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.repositories.InvoiceRepository;
 
 public class MainFragmentViewModel extends AndroidViewModel {
@@ -21,7 +20,11 @@ public class MainFragmentViewModel extends AndroidViewModel {
         repository = new InvoiceRepository(getApplication());
     }
 
-    public LiveData<List<CompleteInvoice>> getAllInvoices(){
+    public LiveData<List<CompleteInvoice>> getAllInvoices() {
         return repository.getAll();
+    }
+
+    public LiveData<List<CompleteInvoice>> getLastInvoices(int numberOfInvoices) {
+        return repository.getLastInvoices(numberOfInvoices);
     }
 }

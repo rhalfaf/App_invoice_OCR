@@ -56,4 +56,8 @@ public class InvoiceRepository {
     public LiveData<List<CompleteInvoice>> getAll() {
         return invoiceDAO.getAll();
     }
+
+    public LiveData<List<CompleteInvoice>> getLastInvoices(int numberOfInvoices) {
+        return invoiceDAO.getLastInvoices(numberOfInvoices);
+    }
 }
