@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import java.util.List;
+
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.Invoice;
 
@@ -18,10 +20,12 @@ public interface InvoiceDAO {
 
     @Transaction
     @Query("select * from invoice")
-    CompleteInvoice getAll();
+    LiveData<List<CompleteInvoice>> getAll();
 
     @Transaction
     @Insert
     long addCompeteInvoice(Invoice invoice);
 
+    @Query("select * from invoice order by id desc limit :numberOfInvoices")
+    LiveData<List<CompleteInvoice>> getLastInvoices(int numberOfInvoices);
 }

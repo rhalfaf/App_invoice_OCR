@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import pl.softr.ocr.database.AppDatabase;
 import pl.softr.ocr.database.dao.BuyerDAO;
 import pl.softr.ocr.database.dao.InvoiceDAO;
@@ -49,5 +51,13 @@ public class InvoiceRepository {
 
     public LiveData<CompleteInvoice> getInvoiceById(long id) {
         return invoiceDAO.getById(id);
+    }
+
+    public LiveData<List<CompleteInvoice>> getAll() {
+        return invoiceDAO.getAll();
+    }
+
+    public LiveData<List<CompleteInvoice>> getLastInvoices(int numberOfInvoices) {
+        return invoiceDAO.getLastInvoices(numberOfInvoices);
     }
 }

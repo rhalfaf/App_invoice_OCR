@@ -1,47 +1,15 @@
 package pl.softr.ocr;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.view.animation.Animation;
-import android.widget.Button;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.room.Room;
 
 import com.google.android.material.navigation.NavigationView;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.Arrays;
-
-import pl.softr.ocr.database.AppDatabase;
-import pl.softr.ocr.database.entity.Buyer;
-import pl.softr.ocr.database.entity.CompleteInvoice;
-import pl.softr.ocr.database.entity.Invoice;
-import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
-import pl.softr.ocr.database.entity.Seller;
-import pl.softr.ocr.database.repositories.InvoiceRepository;
 
 public class MainActivity extends AppCompatActivity {
 
