@@ -1,6 +1,4 @@
-package pl.softr.ocr.invoices.addInvoice;
-
-import android.widget.TextView;
+package pl.softr.ocr.invoices.invoice;
 
 import pl.softr.ocr.utils.Units;
 

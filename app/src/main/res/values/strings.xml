@@ -3,9 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="take_photo">TAKE A PHOTO</string>
     <string name="standard_invoice_add">Dodaj</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="photoPreview">Photo preview</string>
@@ -34,7 +31,6 @@
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_help">Pomoc</string>
     <string name="menu_information">Informacje</string>
-    <!--ADD INVOICE-->
     <string name="invoice_type"><u>Typ faktury</u></string>
     <string name="invoice_number"><u>Numer</u></string>
     <string name="create_date"><u>Data wystawienia</u> </string>
@@ -61,6 +57,8 @@
     <string name="vat"><u>VAT %</u></string>
     <string name="brutto_price"><u>Cena brutto</u></string>
     <string name="cancel">Anuluj</string>
+    <string name="last_invoices"><b>Ostatnie faktury</b></string>
+    <string name="amount_pln">%1$.2f PLN</string>
     <string-array name="invoice_types">
         <item>Faktura</item>
         <item>Faktura Proforma</item>

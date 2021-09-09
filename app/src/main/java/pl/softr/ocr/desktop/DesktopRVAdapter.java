@@ -1,5 +1,6 @@
 package pl.softr.ocr.desktop;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,17 @@ import java.util.List;
 
 import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.CompleteInvoice;
+import pl.softr.ocr.database.entity.InvoicePosition;
 
 public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.ViewHolder> {
 
-    private List<CompleteInvoice> dataSet = new ArrayList<>();
+    private List<CompleteInvoice> dataSet;
+    private Context context;
+
+    public DesktopRVAdapter(List<CompleteInvoice> dataSet, Context context) {
+        this.dataSet = dataSet;
+        this.context = context;
+    }
 
     public void setDataSet(List<CompleteInvoice> dataSet) {
         this.dataSet = dataSet;
@@ -33,8 +41,20 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getInvoiceSymbol().setText(dataSet.get(position).getGeneralInfo().getSymbol());
         holder.getBuyerName().setText(dataSet.get(position).getBuyer().getName());
-        //TODO implement sum of all positions gross price
-        holder.getGrossPrice().setText(String.valueOf(99.99));
+        Double netAmount = getNetAmount(position);
+        String amount = context.getString(R.string.amount_pln, netAmount);
+        holder.getGrossPrice().setText(amount);
+    }
+
+    private double getNetAmount(int position) {
+        return dataSet.
+                get(position).getPositions().stream()
+                .peek(p -> {
+                    if (p.getNetPrice() == null) {
+                        p.setNetPrice(0.0);
+                    }
+                })
+                .mapToDouble(InvoicePosition::getNetPrice).reduce(0, Double::sum);
     }
 
     @Override

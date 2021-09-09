@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_invoice" />
     <fragment
         android:id="@+id/addInvoice2"
-        android:name="pl.softr.ocr.invoices.addInvoice.AddInvoiceFragment"
+        android:name="pl.softr.ocr.invoices.invoice.InvoicePreview"
         android:label="@string/add_invoice"
         tools:layout="@layout/fragment_add_invoice" />
 </navigation>

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.softr.ocr.database.entity.CompleteInvoice;
@@ -85,7 +87,8 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainFragmentViewModel.class);
-        adapter = new DesktopRVAdapter();
+        adapter = new DesktopRVAdapter(new ArrayList<>(), requireContext());
+        binding.rvLastInvoices.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         binding.rvLastInvoices.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rvLastInvoices.setAdapter(adapter);
         viewModel.getLastInvoices(5).observe(getViewLifecycleOwner(), new Observer<List<CompleteInvoice>>() {

@@ -1,4 +1,4 @@
-package pl.softr.ocr.invoices.addInvoice;
+package pl.softr.ocr.invoices.invoice;
 
 import android.os.Bundle;
 
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
-import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.database.entity.Seller;
@@ -30,20 +28,14 @@ import pl.softr.ocr.utils.OnDateSelectedListener;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddInvoiceFragment#newInstance} factory method to
+ * Use the {@link InvoicePreview#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddInvoiceFragment extends Fragment {
+public class InvoicePreview extends Fragment {
 
     private FragmentAddInvoiceBinding binding;
-    private ImageButton wrap;
     private AddInvoiceViewModel viewModel;
-    private List<InvoicePosition> positions;
 
-    private InvoiceGeneralInfo generalInfo;
-    private Seller seller;
-    private Buyer buyer;
-    private Invoice invoice;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,13 +47,13 @@ public class AddInvoiceFragment extends Fragment {
     private String mParam2;
     private AddInvoicePositionsItemAdapter adapter;
 
-    public AddInvoiceFragment() {
+    public InvoicePreview() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static AddInvoiceFragment newInstance(String param1, String param2) {
-        AddInvoiceFragment fragment = new AddInvoiceFragment();
+    public static InvoicePreview newInstance(String param1, String param2) {
+        InvoicePreview fragment = new InvoicePreview();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

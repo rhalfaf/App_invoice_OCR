@@ -1,4 +1,4 @@
-package pl.softr.ocr.invoices.addInvoice;
+package pl.softr.ocr.invoices.invoice;
 
 import android.view.LayoutInflater;
 import android.view.View;
