@@ -45,4 +45,5 @@ public class AddInvoiceViewModel extends AndroidViewModel {
     public LiveData<CompleteInvoice> getInvoiceById(long id) {
         return repository.getInvoiceById(id);
     }
+
 }

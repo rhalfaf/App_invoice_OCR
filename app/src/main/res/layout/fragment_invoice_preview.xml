@@ -19,7 +19,7 @@
 
             <include
                 android:id="@+id/invoice_details_include"
-                layout="@layout/add_invoice_invoice_detail_section"
+                layout="@layout/invoice_preview_general_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
 
             <include
                 android:id="@+id/seller_include"
-                layout="@layout/add_invoice_seller_section"
+                layout="@layout/invoice_preview_seller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/buyer_include"
@@ -41,7 +41,7 @@
 
             <include
                 android:id="@+id/buyer_include"
-                layout="@layout/add_invoice_buyer_section"
+                layout="@layout/invoice_preview_buyer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
 
             <include
                 android:id="@+id/positions_list"
-                layout="@layout/add_invoice_positions"
+                layout="@layout/invoice_preview_positions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
 
             <include
                 android:id="@+id/add_invoice_bottom_buttons"
-                layout="@layout/add_invoice_bottom_buttons"
+                layout="@layout/invoice_preview_bottom_buttons"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

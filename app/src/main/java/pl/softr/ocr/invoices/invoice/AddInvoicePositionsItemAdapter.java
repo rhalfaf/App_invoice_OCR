@@ -1,5 +1,9 @@
 package pl.softr.ocr.invoices.invoice;
 
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +16,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.InvoicePosition;
+import pl.softr.ocr.utils.PriceInputFilter;
 
 public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvoicePositionsItemAdapter.ViewHolder> {
 
     private List<InvoicePosition> dataSet;
+    private boolean editable;
 
     public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet, boolean editable) {
+        this.dataSet = dataSet;
+        this.editable = editable;
     }
 
     public List<InvoicePosition> getDataSet() {
@@ -35,28 +47,121 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_invoice_positions_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.invoice_preview_positions_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getPositionName().setText(dataSet.get(position).getPositionName());
-        holder.getPositionNameLabelWrap().setText(dataSet.get(position).getPositionName());
-        holder.getPositionQuantity().setText(String.valueOf(dataSet.get(position).getPositionQuantity()));
-        holder.getPositionQuantityLabelWrap().setText(String.valueOf(dataSet.get(position).getPositionQuantity()));
+        InputFilter[] filters = {new PriceInputFilter()};
+        InvoicePosition invoice = dataSet.get(position);
+        holder.getPositionName().setEnabled(editable);
+        holder.getPositionQuantity().setEnabled(editable);
+        holder.getPositionUnit().setEnabled(editable);
+        holder.getPositionNetPrice().setEnabled(editable);
+        holder.getPositionVat().setEnabled(editable);
+        holder.getPositionGrossPrice().setEnabled(editable);
+        holder.getPositionGrossPrice().setFilters(filters);
+        holder.getPositionNetPrice().setFilters(filters);
+        holder.getPositionName().setText(invoice.getPositionName());
+        holder.getPositionNameLabelWrap().setText(invoice.getPositionName());
+        holder.getPositionQuantity().setText(String.valueOf(
+                invoice.getPositionQuantity() == null ? "0" : invoice.getPositionQuantity()
+        ));
+        holder.getPositionQuantityLabelWrap().setText(String.valueOf(
+                invoice.getPositionQuantity() == null ? "0" : invoice.getPositionQuantity()
+        ));
+        holder.getPositionNetPrice().setText(String.valueOf(
+                invoice.getNetPrice() == null ? "0" : invoice.getNetPrice()
+        ));
+        holder.getPositionNetPriceLabelWrap().setText(String.valueOf(
+                invoice.getNetPrice() == null ? "0" : invoice.getNetPrice()
+        ));
+        holder.getPositionGrossPrice().setText(String.valueOf(
+                invoice.getGrossPrice() == null ? "0" : invoice.getGrossPrice()
+        ));
+        holder.getPositionGrossPriceLabelWrap().setText(String.valueOf(
+                invoice.getGrossPrice() == null ? "0" : invoice.getGrossPrice()
+        ));
         holder.getPositionUnitLabelWrap().setText(holder.getPositionUnit().getSelectedItem().toString());
-        holder.getPositionNetPrice().setText(String.valueOf(dataSet.get(position).getNetPrice()));
-        holder.getPositionNetPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getNetPrice()));
-        holder.getPositionGrossPrice().setText(String.valueOf(dataSet.get(position).getGrossPrice()));
-        holder.getPositionGrossPriceLabelWrap().setText(String.valueOf(dataSet.get(position).getGrossPrice()));
         holder.getPositionVatLabelWrap().setText(holder.getPositionVat().getSelectedItem().toString());
-        holder.wrap.setOnClickListener(new View.OnClickListener() {
+        holder.wrap.setOnClickListener(v -> wrap(holder));
+        holder.getPositionNetPrice().addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                wrap(holder);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText netPrice = holder.getPositionNetPrice();
+                if (netPrice.isFocused()) {
+                    if (!netPrice.getText().toString().isEmpty()) {
+                        try {
+                            double net = Double.parseDouble(netPrice.getText().toString());
+                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
+                            double gross = net + (net * vat / 100);
+                            setGrossPrice(gross);
+
+                        } catch (NumberFormatException | NullPointerException e) {
+                            Log.e("Net price onTextChange", e.getMessage());
+                        }
+                    } else {
+                        holder.getPositionGrossPrice().setText("0");
+                    }
+                }
+            }
+
+            private void setGrossPrice(double gross) {
+                String grossPrice = String.format(Locale.UK, "%.2f", gross);
+                holder.getPositionGrossPrice().setText(grossPrice);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
             }
         });
+        holder.getPositionGrossPrice().addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText grossPrice = holder.getPositionGrossPrice();
+                if (grossPrice.isFocused()) {
+                    if (!grossPrice.getText().toString().isEmpty()) {
+                        try {
+                            double gross = Double.parseDouble(grossPrice.getText().toString());
+                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
+                            double net = (gross / (1 + ((double) vat / 100)));
+                            setNetPrice(net);
+
+                        } catch (NumberFormatException | NullPointerException e) {
+                            Log.e("Gross price onTextChange", e.getMessage());
+
+                        }
+                    } else {
+                        holder.getPositionNetPrice().setText("0");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            private void setNetPrice(double net) {
+                String netPrice = String.format(Locale.UK, "%.2f", net);
+                holder.getPositionNetPrice().setText(netPrice);
+            }
+        });
+
+
     }
 
     private void wrap(ViewHolder holder) {

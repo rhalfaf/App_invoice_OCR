@@ -24,13 +24,14 @@ import java.util.List;
 
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.databinding.FragmentMainBinding;
+import pl.softr.ocr.invoices.invoice.OnInvoiceSelect;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements OnInvoiceSelect {
 
     private MainFragmentViewModel viewModel;
     private FragmentMainBinding binding;
@@ -79,7 +80,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMainBinding.inflate(inflater,container, false);
+        binding = FragmentMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -87,7 +88,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainFragmentViewModel.class);
-        adapter = new DesktopRVAdapter(new ArrayList<>(), requireContext());
+        adapter = new DesktopRVAdapter(new ArrayList<>(), requireContext(), this);
         binding.rvLastInvoices.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         binding.rvLastInvoices.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rvLastInvoices.setAdapter(adapter);
@@ -105,10 +106,16 @@ public class MainFragment extends Fragment {
     View.OnClickListener addInvoiceClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            NavDirections action = MainFragmentDirections.actionMainActivityFragmentToAddInvoice2();
+            NavDirections action = MainFragmentDirections.showInvoice();
             Navigation.findNavController(v).navigate(action);
         }
     };
 
 
+    @Override
+    public void selectInvoice(Long id, View v) {
+        MainFragmentDirections.ShowInvoice action = MainFragmentDirections.showInvoice();
+        action.setInvoiceIdArg(id);
+        Navigation.findNavController(v).navigate(action);
+    }
 }

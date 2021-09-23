@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-
 @Entity
 public class InvoiceGeneralInfo {
     @PrimaryKey(autoGenerate = true)
@@ -15,22 +13,22 @@ public class InvoiceGeneralInfo {
     @ColumnInfo(name = "symbol")
     private String symbol;
     @ColumnInfo(name = "create_date")
-    private String create_date;
+    private String createDate;
     @ColumnInfo(name = "create_place")
-    private String create_place;
+    private String createPlace;
     @ColumnInfo(name = "sell_date")
-    private String sell_date;
+    private String sellDate;
 
     public long getGeneralInfoId() {
         return generalInfoId;
     }
 
-    public InvoiceGeneralInfo(String type, String symbol, String create_date, String create_place, String sell_date) {
+    public InvoiceGeneralInfo(String type, String symbol, String createDate, String createPlace, String sellDate) {
         this.type = type;
         this.symbol = symbol;
-        this.create_date = create_date;
-        this.create_place = create_place;
-        this.sell_date = sell_date;
+        this.createDate = createDate;
+        this.createPlace = createPlace;
+        this.sellDate = sellDate;
     }
 
     public void setGeneralInfoId(long generalInfoId) {
@@ -53,27 +51,27 @@ public class InvoiceGeneralInfo {
         this.symbol = symbol;
     }
 
-    public String getCreate_date() {
-        return create_date;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setCreate_date(String create_date) {
-        this.create_date = create_date;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
-    public String getCreate_place() {
-        return create_place;
+    public String getCreatePlace() {
+        return createPlace;
     }
 
-    public void setCreate_place(String create_place) {
-        this.create_place = create_place;
+    public void setCreatePlace(String createPlace) {
+        this.createPlace = createPlace;
     }
 
-    public String getSell_date() {
-        return sell_date;
+    public String getSellDate() {
+        return sellDate;
     }
 
-    public void setSell_date(String sell_date) {
-        this.sell_date = sell_date;
+    public void setSellDate(String sellDate) {
+        this.sellDate = sellDate;
     }
 }
