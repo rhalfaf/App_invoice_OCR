@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -161,6 +162,33 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
             }
         });
 
+        holder.getPositionVat().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    int vat = Integer.parseInt(parent.getSelectedItem().toString());
+                    recalculateGross(vat);
+                }catch (NumberFormatException | NullPointerException e){
+                    Log.e("Spinner", e.getMessage());
+                }
+            }
+
+            private void recalculateGross(int vat) {
+                if (!holder.getPositionNetPrice().toString().isEmpty()) {
+                    try {
+                        double net = Double.parseDouble(holder.getPositionNetPrice().getText().toString());
+                        holder.getPositionGrossPrice().setText(String.valueOf(net + net * vat/100));
+                    } catch (NumberFormatException | NullPointerException e) {
+                        Log.e("Spinner", e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
