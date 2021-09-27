@@ -45,4 +45,11 @@ public class AddInvoiceViewModel extends AndroidViewModel {
     public LiveData<CompleteInvoice> getInvoiceById(long id) {
         return repository.getInvoiceById(id);
     }
+
+    public int deleteInvoicePosition(InvoicePosition p) {
+        int r = positions.indexOf(p);
+        positions.remove(p);
+        positionsLiveData.postValue(positions);
+        return r;
+    }
 }

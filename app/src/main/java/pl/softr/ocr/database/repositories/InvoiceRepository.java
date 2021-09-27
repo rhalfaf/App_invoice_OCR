@@ -16,6 +16,7 @@ import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.Invoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
+import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.database.entity.Seller;
 
 public class InvoiceRepository {

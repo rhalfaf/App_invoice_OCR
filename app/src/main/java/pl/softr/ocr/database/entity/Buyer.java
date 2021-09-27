@@ -2,7 +2,6 @@ package pl.softr.ocr.database.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -16,41 +15,41 @@ public class Buyer {
     @ColumnInfo(name = "address")
     private String address;
     @ColumnInfo(name = "postal_code")
-    private String postal_code;
+    private String postalCode;
     @ColumnInfo(name = "city")
     private String city;
     @ColumnInfo(name = "country")
     private String country;
     @ColumnInfo(name = "corresponding_address")
-    private String corresponding_address;
+    private String correspondingAddress;
     @ColumnInfo(name = "email")
     private String email;
     @ColumnInfo(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
     @ColumnInfo(name = "FAX")
     private String fax;
     @ColumnInfo(name = "additional_description")
-    private String additional_description;
+    private String additionalDescription;
 
     public Buyer() {
     }
 
-    public Buyer(String name, String NIP, String address, String postal_code, String city, String country, String corresponding_address, String email, String phone_number, String fax, String additional_description) {
+    public Buyer(String name, String NIP, String address, String postalCode, String city, String country, String correspondingAddress, String email, String phoneNumber, String fax, String additionalDescription) {
         this.name = name;
         this.NIP = NIP;
         this.address = address;
-        this.postal_code = postal_code;
+        this.postalCode = postalCode;
         this.city = city;
         this.country = country;
-        this.corresponding_address = corresponding_address;
+        this.correspondingAddress = correspondingAddress;
         this.email = email;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
         this.fax = fax;
-        this.additional_description = additional_description;
+        this.additionalDescription = additionalDescription;
     }
 
-    public Buyer(String name, String NIP, String address, String postal_code, String city) {
-        this(name, NIP, address, postal_code, city, null, null, null, null, null, null);
+    public Buyer(String name, String NIP, String address, String postalCode, String city) {
+        this(name, NIP, address, postalCode, city, null, null, null, null, null, null);
     }
 
     public long getBuyerId() {
@@ -85,12 +84,12 @@ public class Buyer {
         this.address = address;
     }
 
-    public String getPostal_code() {
-        return postal_code;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPostal_code(String postal_code) {
-        this.postal_code = postal_code;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getCity() {
@@ -109,12 +108,12 @@ public class Buyer {
         this.country = country;
     }
 
-    public String getCorresponding_address() {
-        return corresponding_address;
+    public String getCorrespondingAddress() {
+        return correspondingAddress;
     }
 
-    public void setCorresponding_address(String corresponding_address) {
-        this.corresponding_address = corresponding_address;
+    public void setCorrespondingAddress(String correspondingAddress) {
+        this.correspondingAddress = correspondingAddress;
     }
 
     public String getEmail() {
@@ -125,12 +124,12 @@ public class Buyer {
         this.email = email;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getFax() {
@@ -141,11 +140,11 @@ public class Buyer {
         this.fax = fax;
     }
 
-    public String getAdditional_description() {
-        return additional_description;
+    public String getAdditionalDescription() {
+        return additionalDescription;
     }
 
-    public void setAdditional_description(String additional_description) {
-        this.additional_description = additional_description;
+    public void setAdditionalDescription(String additionalDescription) {
+        this.additionalDescription = additionalDescription;
     }
 }

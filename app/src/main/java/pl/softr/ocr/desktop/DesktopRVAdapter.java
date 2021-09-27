@@ -9,21 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.InvoicePosition;
+import pl.softr.ocr.invoices.invoice.OnInvoiceSelect;
 
 public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.ViewHolder> {
 
     private List<CompleteInvoice> dataSet;
     private Context context;
+    private OnInvoiceSelect invoiceSelect;
 
-    public DesktopRVAdapter(List<CompleteInvoice> dataSet, Context context) {
+    public DesktopRVAdapter(List<CompleteInvoice> dataSet, Context context, OnInvoiceSelect onInvoiceSelect) {
         this.dataSet = dataSet;
         this.context = context;
+        this.invoiceSelect = onInvoiceSelect;
     }
 
     public void setDataSet(List<CompleteInvoice> dataSet) {
@@ -45,6 +47,8 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
         String amount = context.getString(R.string.amount_pln, netAmount);
         holder.getGrossPrice().setText(amount);
     }
+
+
 
     private double getNetAmount(int position) {
         return dataSet.
@@ -73,7 +77,10 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
             invoiceSymbol = itemView.findViewById(R.id.tvInvoiceSymbol);
             buyerName = itemView.findViewById(R.id.tvBuyerName);
             grossPrice = itemView.findViewById(R.id.tvInvoiceAmount);
-
+            itemView.setOnClickListener(v -> {
+                Long invoiceId = dataSet.get(getAdapterPosition()).getInvoice().getId();
+                invoiceSelect.selectInvoice(invoiceId, itemView);
+            });
         }
 
         public TextView getInvoiceSymbol() {
