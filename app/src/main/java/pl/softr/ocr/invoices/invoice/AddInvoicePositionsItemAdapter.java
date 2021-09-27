@@ -1,5 +1,7 @@
 package pl.softr.ocr.invoices.invoice;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -8,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -16,25 +20,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.internal.TextWatcherAdapter;
+
 import java.util.List;
 import java.util.Locale;
 
 import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.utils.PriceInputFilter;
+import pl.softr.ocr.utils.Units;
 
 public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvoicePositionsItemAdapter.ViewHolder> {
 
     private List<InvoicePosition> dataSet;
-    private boolean editable;
+    private final boolean editable;
+    private final Context mContext;
+    private final OnInvoicePositionDelete positionDeleteCallback;
 
-    public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet) {
-        this.dataSet = dataSet;
-    }
-
-    public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet, boolean editable) {
+    public AddInvoicePositionsItemAdapter(List<InvoicePosition> dataSet, boolean editable, Context context, OnInvoicePositionDelete positionDeleteCallback) {
         this.dataSet = dataSet;
         this.editable = editable;
+        this.mContext = context;
+        this.positionDeleteCallback = positionDeleteCallback;
     }
 
     public List<InvoicePosition> getDataSet() {
@@ -59,6 +66,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
         holder.getPositionName().setEnabled(editable);
         holder.getPositionQuantity().setEnabled(editable);
         holder.getPositionUnit().setEnabled(editable);
+        holder.getPositionUnit().setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, Units.values()));
         holder.getPositionNetPrice().setEnabled(editable);
         holder.getPositionVat().setEnabled(editable);
         holder.getPositionGrossPrice().setEnabled(editable);
@@ -87,80 +95,9 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
         holder.getPositionUnitLabelWrap().setText(holder.getPositionUnit().getSelectedItem().toString());
         holder.getPositionVatLabelWrap().setText(holder.getPositionVat().getSelectedItem().toString());
         holder.wrap.setOnClickListener(v -> wrap(holder));
-        holder.getPositionNetPrice().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        holder.getDeletePositionBtn().setVisibility(editable ? View.VISIBLE : View.GONE);
+        setTextWatchers(holder);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                EditText netPrice = holder.getPositionNetPrice();
-                if (netPrice.isFocused()) {
-                    if (!netPrice.getText().toString().isEmpty()) {
-                        try {
-                            double net = Double.parseDouble(netPrice.getText().toString());
-                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
-                            double gross = net + (net * vat / 100);
-                            setGrossPrice(gross);
-
-                        } catch (NumberFormatException | NullPointerException e) {
-                            Log.e("Net price onTextChange", e.getMessage());
-                        }
-                    } else {
-                        holder.getPositionGrossPrice().setText("0");
-                    }
-                }
-            }
-
-            private void setGrossPrice(double gross) {
-                String grossPrice = String.format(Locale.UK, "%.2f", gross);
-                holder.getPositionGrossPrice().setText(grossPrice);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-            }
-        });
-        holder.getPositionGrossPrice().addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                EditText grossPrice = holder.getPositionGrossPrice();
-                if (grossPrice.isFocused()) {
-                    if (!grossPrice.getText().toString().isEmpty()) {
-                        try {
-                            double gross = Double.parseDouble(grossPrice.getText().toString());
-                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
-                            double net = (gross / (1 + ((double) vat / 100)));
-                            setNetPrice(net);
-
-                        } catch (NumberFormatException | NullPointerException e) {
-                            Log.e("Gross price onTextChange", e.getMessage());
-
-                        }
-                    } else {
-                        holder.getPositionNetPrice().setText("0");
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
-            private void setNetPrice(double net) {
-                String netPrice = String.format(Locale.UK, "%.2f", net);
-                holder.getPositionNetPrice().setText(netPrice);
-            }
-        });
 
         holder.getPositionVat().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -168,7 +105,8 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
                 try {
                     int vat = Integer.parseInt(parent.getSelectedItem().toString());
                     recalculateGross(vat);
-                }catch (NumberFormatException | NullPointerException e){
+                    dataSet.get(position).setVAT(vat);
+                } catch (NumberFormatException | NullPointerException e) {
                     Log.e("Spinner", e.getMessage());
                 }
             }
@@ -177,7 +115,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
                 if (!holder.getPositionNetPrice().toString().isEmpty()) {
                     try {
                         double net = Double.parseDouble(holder.getPositionNetPrice().getText().toString());
-                        holder.getPositionGrossPrice().setText(String.valueOf(net + net * vat/100));
+                        holder.getPositionGrossPrice().setText(String.valueOf(net + net * vat / 100));
                     } catch (NumberFormatException | NullPointerException e) {
                         Log.e("Spinner", e.getMessage());
                     }
@@ -193,7 +131,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
     }
 
     private void wrap(ViewHolder holder) {
-        if (holder.isWrapped) {
+        if (holder.isWrapped()) {
             holder.getPositionName().setVisibility(View.VISIBLE);
             holder.getPositionQuantity().setVisibility(View.VISIBLE);
             holder.getPositionUnit().setVisibility(View.VISIBLE);
@@ -229,7 +167,122 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
         return dataSet.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    @SuppressLint("RestrictedApi")
+    private void setTextWatchers(ViewHolder holder) {
+
+        final int adapterPosition = holder.getAdapterPosition();
+        holder.getPositionName().addTextChangedListener(new TextWatcherAdapter() {
+            @Override
+            public void afterTextChanged(@NonNull Editable s) {
+                String value = s.toString().isEmpty() ? "" : s.toString();
+                dataSet.get(adapterPosition).setPositionName(value);
+
+            }
+        });
+
+        holder.getPositionQuantity().addTextChangedListener(new TextWatcherAdapter() {
+            @Override
+            public void afterTextChanged(@NonNull Editable s) {
+                String value = s.toString().isEmpty() ? "0" : s.toString();
+                dataSet.get(adapterPosition).setPositionQuantity(Double.parseDouble(value));
+
+            }
+        });
+
+        holder.getPositionUnit().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                dataSet.get(adapterPosition).setPositionUnit((Units) holder.getPositionUnit().getSelectedItem());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        holder.getPositionNetPrice().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText netPrice = holder.getPositionNetPrice();
+                if (netPrice.isFocused()) {
+                    if (!netPrice.getText().toString().isEmpty()) {
+                        try {
+                            double net = Double.parseDouble(netPrice.getText().toString());
+                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
+                            double gross = net + (net * vat / 100);
+                            setGrossPrice(gross);
+
+                        } catch (NumberFormatException | NullPointerException e) {
+                            Log.e("Net price onTextChange", e.getMessage());
+                        }
+                    } else {
+                        holder.getPositionGrossPrice().setText("0");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String value = s.toString().isEmpty() ? "0" : s.toString();
+                dataSet.get(adapterPosition).setNetPrice(Double.parseDouble(value));
+            }
+
+            private void setGrossPrice(double gross) {
+                String grossPrice = String.format(Locale.UK, "%.2f", gross);
+                holder.getPositionGrossPrice().setText(grossPrice);
+            }
+        });
+
+        holder.getPositionGrossPrice().addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText grossPrice = holder.getPositionGrossPrice();
+                if (grossPrice.isFocused()) {
+                    if (!grossPrice.getText().toString().isEmpty()) {
+                        try {
+                            double gross = Double.parseDouble(grossPrice.getText().toString());
+                            int vat = Integer.parseInt(holder.getPositionVat().getSelectedItem().toString());
+                            double net = (gross / (1 + ((double) vat / 100)));
+                            setNetPrice(net);
+
+                        } catch (NumberFormatException | NullPointerException e) {
+                            Log.e("Gross price onTextChange", e.getMessage());
+
+                        }
+                    } else {
+                        holder.getPositionNetPrice().setText("0");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String value = s.toString().isEmpty() ? "0" : s.toString();
+                if (!value.isEmpty()) {
+                    dataSet.get(adapterPosition).setGrossPrice(Double.valueOf(value));
+                }
+            }
+
+            private void setNetPrice(double net) {
+                String netPrice = String.format(Locale.UK, "%.2f", net);
+                holder.getPositionNetPrice().setText(netPrice);
+            }
+        });
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final EditText positionName;
         private final TextView positionNameLabelWrap;
@@ -244,6 +297,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
         private final EditText positionGrossPrice;
         private final TextView positionGrossPriceLabelWrap;
         private final ImageButton wrap;
+        private final Button deletePosition;
         private boolean isWrapped = false;
 
 
@@ -262,6 +316,8 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
             positionVatLabelWrap = itemView.findViewById(R.id.pos_item_vat_val_wrap);
             positionNetPriceLabelWrap = itemView.findViewById(R.id.pos_item_net_price_val_wrap);
             positionGrossPriceLabelWrap = itemView.findViewById(R.id.pos_item_gross_price_val_wrap);
+            deletePosition = itemView.findViewById(R.id.delete_position);
+            deletePosition.setOnClickListener(v -> positionDeleteCallback.delete(dataSet.get(getAdapterPosition())));
         }
 
         public EditText getPositionName() {
@@ -312,16 +368,16 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
             return positionGrossPriceLabelWrap;
         }
 
-        public ImageButton getWrap() {
-            return wrap;
-        }
-
         public boolean isWrapped() {
             return isWrapped;
         }
 
         public void setWrapped(boolean wrapped) {
             isWrapped = wrapped;
+        }
+
+        public Button getDeletePositionBtn() {
+            return deletePosition;
         }
     }
 

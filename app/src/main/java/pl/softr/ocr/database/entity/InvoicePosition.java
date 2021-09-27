@@ -23,7 +23,7 @@ public class InvoicePosition {
     @ColumnInfo(name = "net_price")
     private Double netPrice;
     @ColumnInfo(name = "VAT")
-    private Double VAT;
+    private Integer VAT;
     @ColumnInfo(name = "invoice_id")
     private long invoiceId;
 
@@ -51,7 +51,7 @@ public class InvoicePosition {
         return netPrice;
     }
 
-    public Double getVAT() {
+    public Integer getVAT() {
         return VAT;
     }
 
@@ -83,7 +83,7 @@ public class InvoicePosition {
         this.netPrice = netPrice;
     }
 
-    public void setVAT(Double VAT) {
+    public void setVAT(Integer VAT) {
         this.VAT = VAT;
     }
 

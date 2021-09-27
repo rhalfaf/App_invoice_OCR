@@ -73,7 +73,6 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/text_field"
-        android:entries="@array/units"
         android:minHeight="36dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -227,5 +226,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/vat_spinner" />
+
+    <Button
+        android:id="@+id/delete_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_wrapp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gross_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

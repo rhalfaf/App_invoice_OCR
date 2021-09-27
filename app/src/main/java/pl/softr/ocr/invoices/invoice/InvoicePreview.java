@@ -63,7 +63,7 @@ public class InvoicePreview extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         invoiceId = InvoicePreviewArgs.fromBundle(getArguments()).getInvoiceIdArg();
         editable = invoiceId == 0;
@@ -75,7 +75,7 @@ public class InvoicePreview extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new AddInvoicePositionsItemAdapter(new ArrayList<>(), editable);
+        adapter = new AddInvoicePositionsItemAdapter(new ArrayList<>(), editable, requireContext(),deletePosition);
         binding.positionsList.rvPositionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.positionsList.rvPositionsList.setAdapter(adapter);
         setEditable();
@@ -113,9 +113,7 @@ public class InvoicePreview extends Fragment {
     }
 
     private void createNewInvoice() {
-        viewModel.getInvoicePositions().observe(getViewLifecycleOwner(), positions -> {
-            adapter.setDataSet(positions);
-        });
+        viewModel.getInvoicePositions().observe(getViewLifecycleOwner(), positions -> adapter.setDataSet(positions));
         binding.addInvoiceBottomButtons.saveInvoice.setOnClickListener(saveInvoiceClick);
         binding.invoiceDetailsInclude.etInvoiceCreateDate.setText(DateActual.getDateFormatted(Calendar.getInstance()));
         binding.invoiceDetailsInclude.btnCreateDate.setOnClickListener(setCreateDate);
@@ -123,6 +121,7 @@ public class InvoicePreview extends Fragment {
         binding.invoiceDetailsInclude.btnSellDateCalendar.setOnClickListener(setSellDate);
         binding.positionsList.btnAddInvoicePosition.setOnClickListener(addInvoicePosition);
         binding.addInvoiceBottomButtons.cancelEdit.setOnClickListener(cancelClick);
+
     }
 
     private void readInvoiceFromDb() {
@@ -173,38 +172,6 @@ public class InvoicePreview extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    private View.OnClickListener saveInvoiceClick = v -> {
-        viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
-    };
-
-    private View.OnClickListener cancelClick = v -> {
-        requireActivity().onBackPressed();
-    };
-
-    private View.OnClickListener addInvoicePosition = v -> {
-        int index = viewModel.addInvoicePosition(new InvoicePosition());
-        adapter.notifyItemChanged(index);
-    };
-
-    private View.OnClickListener setCreateDate = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            showDatePicker(createDateListener);
-        }
-    };
-
-    private View.OnClickListener setSellDate = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            showDatePicker(sellDateListener);
-        }
-    };
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
     private InvoiceGeneralInfo readGeneralInfo() {
         String invoiceType = binding.invoiceDetailsInclude.spInvoiceType.getSelectedItem().toString();
@@ -257,4 +224,32 @@ public class InvoicePreview extends Fragment {
             binding.invoiceDetailsInclude.etSellDate.setText(DateActual.getDateFormatted(c));
         }
     };
+
+    OnInvoicePositionDelete deletePosition = new OnInvoicePositionDelete() {
+        @Override
+        public void delete(InvoicePosition p) {
+            int index = viewModel.deleteInvoicePosition(p);
+            adapter.notifyItemRemoved(index);
+        }
+    };
+
+    private final View.OnClickListener saveInvoiceClick = v -> viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
+
+    private final View.OnClickListener cancelClick = v -> requireActivity().onBackPressed();
+
+    private final View.OnClickListener addInvoicePosition = v -> {
+        int index = viewModel.addInvoicePosition(new InvoicePosition());
+        adapter.notifyItemChanged(index);
+    };
+
+    private final View.OnClickListener setCreateDate = v -> showDatePicker(createDateListener);
+
+    private final View.OnClickListener setSellDate = v -> showDatePicker(sellDateListener);
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
 }
