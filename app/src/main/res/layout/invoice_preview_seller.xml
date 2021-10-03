@@ -115,7 +115,7 @@
         android:layout_marginEnd="5dp"
         android:background="@drawable/text_field"
         android:ems="10"
-        android:inputType="textPostalAddress"
+        android:inputType="number|phone"
         android:minHeight="36dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

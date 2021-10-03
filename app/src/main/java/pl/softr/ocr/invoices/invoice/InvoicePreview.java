@@ -1,7 +1,10 @@
 package pl.softr.ocr.invoices.invoice;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
@@ -24,12 +28,12 @@ import pl.softr.ocr.database.entity.Seller;
 import pl.softr.ocr.databinding.FragmentInvoicePreviewBinding;
 import pl.softr.ocr.databinding.InvoicePreviewBuyerBinding;
 import pl.softr.ocr.databinding.InvoicePreviewGeneralInfoBinding;
-import pl.softr.ocr.databinding.InvoicePreviewPositionsBinding;
-import pl.softr.ocr.databinding.InvoicePreviewPositionsItemBinding;
 import pl.softr.ocr.databinding.InvoicePreviewSellerBinding;
 import pl.softr.ocr.utils.DataPickerDialogFragment;
 import pl.softr.ocr.utils.DateActual;
+import pl.softr.ocr.utils.EditTextValidator;
 import pl.softr.ocr.utils.OnDateSelectedListener;
+import pl.softr.ocr.utils.PostalCodeInputFilter;
 
 public class InvoicePreview extends Fragment {
 
@@ -42,6 +46,8 @@ public class InvoicePreview extends Fragment {
 
     private Long mParam1;
     private AddInvoicePositionsItemAdapter adapter;
+    private EditTextValidator validator;
+
 
     public InvoicePreview() {
     }
@@ -75,7 +81,8 @@ public class InvoicePreview extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new AddInvoicePositionsItemAdapter(new ArrayList<>(), editable, requireContext(),deletePosition);
+
+        adapter = new AddInvoicePositionsItemAdapter(new ArrayList<>(), editable, requireContext(), deletePosition);
         binding.positionsList.rvPositionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.positionsList.rvPositionsList.setAdapter(adapter);
         setEditable();
@@ -83,6 +90,7 @@ public class InvoicePreview extends Fragment {
             readInvoiceFromDb();
         } else {
             createNewInvoice();
+            dummyData();
         }
     }
 
@@ -113,8 +121,11 @@ public class InvoicePreview extends Fragment {
     }
 
     private void createNewInvoice() {
+        InputFilter filter[] = {new PostalCodeInputFilter()};
         viewModel.getInvoicePositions().observe(getViewLifecycleOwner(), positions -> adapter.setDataSet(positions));
         binding.addInvoiceBottomButtons.saveInvoice.setOnClickListener(saveInvoiceClick);
+        binding.sellerInclude.etSellerPostalCode.setFilters(filter);
+        binding.buyerInclude.etBuyerPostalCode.setFilters(filter);
         binding.invoiceDetailsInclude.etInvoiceCreateDate.setText(DateActual.getDateFormatted(Calendar.getInstance()));
         binding.invoiceDetailsInclude.btnCreateDate.setOnClickListener(setCreateDate);
         binding.invoiceDetailsInclude.etSellDate.setText(DateActual.getDateFormatted(Calendar.getInstance()));
@@ -233,9 +244,57 @@ public class InvoicePreview extends Fragment {
         }
     };
 
-    private final View.OnClickListener saveInvoiceClick = v -> viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
+    private final View.OnClickListener saveInvoiceClick = v -> {
+        if (validateFragment()) {
+            viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
+            requireActivity().onBackPressed();
+        } else if(validator != null && validator.isListEmpty()){
+            new AlertDialog.Builder(getContext())
+                    .setMessage(getString(R.string.ask_save_no_positions))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
+                            requireActivity().onBackPressed();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    };
 
-    private final View.OnClickListener cancelClick = v -> requireActivity().onBackPressed();
+    private boolean validateFragment() {
+        validator = new EditTextValidator();
+        validator.isNotEmpty(binding.invoiceDetailsInclude.etInvoiceNumber);
+        validator.isNotEmpty(binding.invoiceDetailsInclude.etInvoiceCreatePlace);
+        validator.isNotEmpty(binding.sellerInclude.etSellerName);
+        validator.isNotEmpty(binding.sellerInclude.etSellerNIP);
+        validator.isNotEmpty(binding.sellerInclude.etSellerAddress);
+        validator.isNotEmpty(binding.sellerInclude.etSellerPostalCode);
+        validator.isNotEmpty(binding.sellerInclude.etSellerCity);
+        validator.isNotEmpty(binding.buyerInclude.etBuyerName);
+        validator.isNotEmpty(binding.buyerInclude.etBuyerNIP);
+        validator.isNotEmpty(binding.buyerInclude.etBuyerAddress);
+        validator.isNotEmpty(binding.buyerInclude.etBuyerPostalCode);
+        validator.isNotEmpty(binding.buyerInclude.etBuyerCity);
+        validator.validateList(binding.positionsList.rvPositionsList);
+        validator.getInvalidFields().stream().findFirst().ifPresent(View::requestFocus);
+        //TODO add validation for position list
+        return validator.isFormValid();
+    }
+
+    private final View.OnClickListener cancelClick = v -> {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.ask_close_no_save))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> requireActivity().onBackPressed())
+                .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
+                .show();
+
+    };
 
     private final View.OnClickListener addInvoicePosition = v -> {
         int index = viewModel.addInvoicePosition(new InvoicePosition());
@@ -250,6 +309,22 @@ public class InvoicePreview extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void dummyData(){
+        binding.invoiceDetailsInclude.etInvoiceNumber.setText("A1/10/2021");
+        binding.invoiceDetailsInclude.etInvoiceCreatePlace.setText("Warszawa");
+        binding.sellerInclude.etSellerName.setText("Sprzedawca nazwa");
+        binding.sellerInclude.etSellerNIP.setText("7758971176");
+        binding.sellerInclude.etSellerAddress.setText("Sprzedawca address 99/99");
+        binding.sellerInclude.etSellerPostalCode.setText("03-043");
+        binding.sellerInclude.etSellerCity.setText("Warszawa");
+        binding.sellerInclude.etSellerBankAccountNumber.setText("219998921220291281210912");
+        binding.buyerInclude.etBuyerName.setText("Kupujący nazwa");
+        binding.buyerInclude.etBuyerNIP.setText("7876543321");
+        binding.buyerInclude.etBuyerAddress.setText("Kupujący adres 99/99");
+        binding.buyerInclude.etBuyerPostalCode.setText("99-000");
+        binding.buyerInclude.etBuyerCity.setText("Warszawa");
     }
 
 }
