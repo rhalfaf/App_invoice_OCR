@@ -1,11 +1,11 @@
 package pl.softr.ocr.desktop;
 
-public class DesktopRVItemPOJO {
+public class DesktopInvoiceListItem {
     private String invoiceSymbol;
     private String buyerName;
     private Double grossPrice;
 
-    public DesktopRVItemPOJO(String invoiceSymbol, String buyerName, Double grossPrice) {
+    public DesktopInvoiceListItem(String invoiceSymbol, String buyerName, Double grossPrice) {
         this.invoiceSymbol = invoiceSymbol;
         this.buyerName = buyerName;
         this.grossPrice = grossPrice;

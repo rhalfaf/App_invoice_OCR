@@ -16,13 +16,13 @@ import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.InvoicePosition;
 import pl.softr.ocr.invoices.invoice.OnInvoiceSelect;
 
-public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.ViewHolder> {
+public class DesktopInvoiceListAdapter extends RecyclerView.Adapter<DesktopInvoiceListAdapter.ViewHolder> {
 
     private List<CompleteInvoice> dataSet;
     private Context context;
     private OnInvoiceSelect invoiceSelect;
 
-    public DesktopRVAdapter(List<CompleteInvoice> dataSet, Context context, OnInvoiceSelect onInvoiceSelect) {
+    public DesktopInvoiceListAdapter(List<CompleteInvoice> dataSet, Context context, OnInvoiceSelect onInvoiceSelect) {
         this.dataSet = dataSet;
         this.context = context;
         this.invoiceSelect = onInvoiceSelect;
@@ -45,7 +45,7 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
         holder.getBuyerName().setText(dataSet.get(position).getBuyer().getName());
         Double netAmount = getNetAmount(position);
         String amount = context.getString(R.string.amount_pln, netAmount);
-        holder.getGrossPrice().setText(amount);
+        holder.getNetPrice().setText(amount);
     }
 
 
@@ -70,13 +70,13 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
 
         private final TextView invoiceSymbol;
         private final TextView buyerName;
-        private final TextView grossPrice;
+        private final TextView netPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             invoiceSymbol = itemView.findViewById(R.id.tvInvoiceSymbol);
             buyerName = itemView.findViewById(R.id.tvBuyerName);
-            grossPrice = itemView.findViewById(R.id.tvInvoiceAmount);
+            netPrice = itemView.findViewById(R.id.tvInvoiceAmount);
             itemView.setOnClickListener(v -> {
                 Long invoiceId = dataSet.get(getAdapterPosition()).getInvoice().getId();
                 invoiceSelect.selectInvoice(invoiceId, itemView);
@@ -91,8 +91,8 @@ public class DesktopRVAdapter extends RecyclerView.Adapter<DesktopRVAdapter.View
             return buyerName;
         }
 
-        public TextView getGrossPrice() {
-            return grossPrice;
+        public TextView getNetPrice() {
+            return netPrice;
         }
     }
 }

@@ -31,7 +31,7 @@ public class MainFragment extends Fragment implements OnInvoiceSelect {
 
     private MainFragmentViewModel viewModel;
     private FragmentMainBinding binding;
-    private DesktopRVAdapter adapter;
+    private DesktopInvoiceListAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,7 +76,7 @@ public class MainFragment extends Fragment implements OnInvoiceSelect {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainFragmentViewModel.class);
-        adapter = new DesktopRVAdapter(new ArrayList<>(), requireContext(), this);
+        adapter = new DesktopInvoiceListAdapter(new ArrayList<>(), requireContext(), this);
         binding.rvLastInvoices.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         binding.rvLastInvoices.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rvLastInvoices.setAdapter(adapter);
@@ -89,16 +89,18 @@ public class MainFragment extends Fragment implements OnInvoiceSelect {
             }
         });
         binding.btnAddInvoice.setOnClickListener(addInvoiceClick);
+        binding.btnShowBuyers.setOnClickListener(showBuyerClickListener);
     }
 
-    View.OnClickListener addInvoiceClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            NavDirections action = MainFragmentDirections.showInvoice();
-            Navigation.findNavController(v).navigate(action);
-        }
+    View.OnClickListener addInvoiceClick = v -> {
+        NavDirections action = MainFragmentDirections.showInvoice();
+        Navigation.findNavController(v).navigate(action);
     };
 
+    View.OnClickListener showBuyerClickListener = v-> {
+        NavDirections action = MainFragmentDirections.actionMainActivityFragmentToContractorsListFragment();
+        Navigation.findNavController(v).navigate(action);
+    };
 
     @Override
     public void selectInvoice(Long id, View v) {

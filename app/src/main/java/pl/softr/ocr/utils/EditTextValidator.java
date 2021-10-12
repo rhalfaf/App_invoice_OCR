@@ -1,11 +1,8 @@
 package pl.softr.ocr.utils;
 
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,9 +42,11 @@ public class EditTextValidator {
             AddInvoicePositionsItemAdapter.ViewHolder holder = (AddInvoicePositionsItemAdapter.ViewHolder) rvPositionsList.findViewHolderForAdapterPosition(i);
             if (holder != null) {
                 String textValue = holder.getPositionName().getText().toString();
-                holder.getPositionName().setError(textValue.isEmpty() ? emptyFieldError : null);
-                isFormValid = false;
-                invalidFields.add(holder.getPositionName());
+                if (textValue.isEmpty()) {
+                    holder.getPositionName().setError(emptyFieldError);
+                    isFormValid = false;
+                    invalidFields.add(holder.getPositionName());
+                }
             }
         }
         return isFormValid;

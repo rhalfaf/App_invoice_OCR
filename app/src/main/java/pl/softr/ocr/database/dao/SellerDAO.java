@@ -28,5 +28,5 @@ public interface SellerDAO {
     long insert(Seller seller);
 
     @Delete
-    void deleteSellerById(Seller seller);
+    void deleteSeller(Seller seller);
 }

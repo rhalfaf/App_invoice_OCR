@@ -1,6 +1,7 @@
 package pl.softr.ocr.invoices.invoice;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,16 +15,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.rxjava3.EmptyResultSetException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import pl.softr.ocr.R;
 import pl.softr.ocr.database.entity.Buyer;
 import pl.softr.ocr.database.entity.CompleteInvoice;
 import pl.softr.ocr.database.entity.InvoiceGeneralInfo;
 import pl.softr.ocr.database.entity.InvoicePosition;
+import pl.softr.ocr.database.entity.SavedBuyer;
 import pl.softr.ocr.database.entity.Seller;
 import pl.softr.ocr.databinding.FragmentInvoicePreviewBinding;
 import pl.softr.ocr.databinding.InvoicePreviewBuyerBinding;
@@ -81,13 +88,13 @@ public class InvoicePreview extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         adapter = new AddInvoicePositionsItemAdapter(new ArrayList<>(), editable, requireContext(), deletePosition);
         binding.positionsList.rvPositionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.positionsList.rvPositionsList.setAdapter(adapter);
         setEditable();
         if (invoiceId != 0) {
             readInvoiceFromDb();
+            //TODO change fragment title when invoice preview show
         } else {
             createNewInvoice();
             dummyData();
@@ -216,12 +223,6 @@ public class InvoicePreview extends Fragment {
         return adapter.getDataSet();
     }
 
-    private void showDatePicker(OnDateSelectedListener listener) {
-        DataPickerDialogFragment dialogFragment = new DataPickerDialogFragment();
-        dialogFragment.setDateSelectedListener(listener);
-        dialogFragment.show(getParentFragmentManager(), "data picker");
-    }
-
     OnDateSelectedListener createDateListener = new OnDateSelectedListener() {
         @Override
         public void onDateSelect(Calendar c) {
@@ -246,26 +247,71 @@ public class InvoicePreview extends Fragment {
 
     private final View.OnClickListener saveInvoiceClick = v -> {
         if (validateFragment()) {
-            viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
-            requireActivity().onBackPressed();
-        } else if(validator != null && validator.isListEmpty()){
-            new AlertDialog.Builder(getContext())
-                    .setMessage(getString(R.string.ask_save_no_positions))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
-                            requireActivity().onBackPressed();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+            saveInvoiceInDb();
+        } else if (validator != null && validator.isListEmpty()) {
+            showMissingPositionsAlert();
         }
     };
+
+    private final View.OnClickListener cancelClick = v -> new AlertDialog.Builder(requireContext())
+            .setMessage(getString(R.string.ask_close_no_save))
+            .setPositiveButton(getString(R.string.yes), (dialog, which) -> requireActivity().onBackPressed())
+            .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
+            .show();
+
+
+    private void saveInvoiceInDb() {
+        viewModel.saveInvoice(new CompleteInvoice(readGeneralInfo(), readSeller(), readBuyer(), readPositions()));
+        boolean saveBuyer = binding.buyerInclude.cbSaveBuyer.isChecked();
+        if (saveBuyer) {
+            SavedBuyer s = SavedBuyer.mapToSavedBuyer(readBuyer());
+            saveBuyer(s);
+        } else {
+            goBack();
+        }
+    }
+
+    private void saveBuyer(SavedBuyer actual) {
+        viewModel.isBuyerSaved(actual)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(savedBuyerObserver);
+    }
+
+    SingleObserver<SavedBuyer> savedBuyerObserver = new SingleObserver<SavedBuyer>() {
+        @Override
+        public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+        }
+
+        @Override
+        public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull SavedBuyer savedBuyer) {
+            SavedBuyer actual = SavedBuyer.mapToSavedBuyer(readBuyer());
+            showBuyerAlreadyExistAlert(savedBuyer, actual);
+        }
+
+        @Override
+        public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+            SavedBuyer actual = SavedBuyer.mapToSavedBuyer(readBuyer());
+            if (e instanceof EmptyResultSetException) {
+                viewModel.saveMyBuyer(actual);
+                goBack();
+            } else {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private void showBuyerAlreadyExistAlert(SavedBuyer buyer, SavedBuyer actual) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.ask_update_my_buyer, buyer.getNIP()))
+                .setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
+                    viewModel.updateSavedBuyer(actual);
+                    dialogInterface.dismiss();
+                })
+                .setNegativeButton(getString(R.string.no), (dialogInterface, i) -> dialogInterface.dismiss()).show().setOnDismissListener(dismissListener);
+    }
+
+    DialogInterface.OnDismissListener dismissListener = dialog -> goBack();
 
     private boolean validateFragment() {
         validator = new EditTextValidator();
@@ -283,18 +329,9 @@ public class InvoicePreview extends Fragment {
         validator.isNotEmpty(binding.buyerInclude.etBuyerCity);
         validator.validateList(binding.positionsList.rvPositionsList);
         validator.getInvalidFields().stream().findFirst().ifPresent(View::requestFocus);
-        //TODO add validation for position list
         return validator.isFormValid();
     }
 
-    private final View.OnClickListener cancelClick = v -> {
-        new AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.ask_close_no_save))
-                .setPositiveButton(getString(R.string.yes), (dialog, which) -> requireActivity().onBackPressed())
-                .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
-                .show();
-
-    };
 
     private final View.OnClickListener addInvoicePosition = v -> {
         int index = viewModel.addInvoicePosition(new InvoicePosition());
@@ -305,13 +342,30 @@ public class InvoicePreview extends Fragment {
 
     private final View.OnClickListener setSellDate = v -> showDatePicker(sellDateListener);
 
+    private void showMissingPositionsAlert() {
+        new AlertDialog.Builder(getContext())
+                .setMessage(getString(R.string.ask_save_no_positions))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> saveInvoiceInDb())
+                .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss()).show();
+    }
+
+    private void showDatePicker(OnDateSelectedListener listener) {
+        DataPickerDialogFragment dialogFragment = new DataPickerDialogFragment();
+        dialogFragment.setDateSelectedListener(listener);
+        dialogFragment.show(getParentFragmentManager(), "data picker");
+    }
+
+    private void goBack() {
+        requireActivity().onBackPressed();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
-    public void dummyData(){
+    public void dummyData() {
         binding.invoiceDetailsInclude.etInvoiceNumber.setText("A1/10/2021");
         binding.invoiceDetailsInclude.etInvoiceCreatePlace.setText("Warszawa");
         binding.sellerInclude.etSellerName.setText("Sprzedawca nazwa");
@@ -326,5 +380,16 @@ public class InvoicePreview extends Fragment {
         binding.buyerInclude.etBuyerPostalCode.setText("99-000");
         binding.buyerInclude.etBuyerCity.setText("Warszawa");
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
 
 }
