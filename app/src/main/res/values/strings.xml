@@ -60,20 +60,18 @@
     <string name="last_invoices"><b>Ostatnie faktury</b></string>
     <string name="amount_pln">%1$.2f PLN</string>
     <string name="delete">Usuń</string>
+    <string name="empty_field_error">Pole wymagane</string>
+    <string name="ask_close_no_save">Czy zamknąć bez zapisywania?</string>
+    <string name="yes" type="id">Tak</string>
+    <string name="no">Nie</string>
+    <string name="ask_save_no_positions">Brak pozycji na fakturze, czy na pewno chcesz zapisać?</string>
+    <string name="sh">pl.softr.ocr.sharedpreferences.MY_SELLERS</string>
+    <string name="ask_update_my_seller">Sprzedawca o takiej nazwie już istniej, czy zaaktualizować?</string>
+    <string name="ask_update_my_buyer">Kupujący o numerze NIP %1$s jest już zapisany, czy zaaktualizować?</string>
     <string-array name="invoice_types">
         <item>Faktura</item>
         <item>Faktura Proforma</item>
         <item>Faktura korygująca</item>
-    </string-array>
-    <string-array name="units">
-        <item>sztuka</item>
-        <item>godzina</item>
-        <item>dzień</item>
-        <item>miesiąc</item>
-        <item>kilometr</item>
-        <item>m2</item>
-        <item>kilogram</item>
-        <item>własna</item>
     </string-array>
     <string-array name="vat">
         <item>23</item>
@@ -82,6 +80,8 @@
         <item>5</item>
         <item>0</item>
     </string-array>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

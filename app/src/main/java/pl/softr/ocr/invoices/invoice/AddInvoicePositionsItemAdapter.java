@@ -105,7 +105,7 @@ public class AddInvoicePositionsItemAdapter extends RecyclerView.Adapter<AddInvo
                 try {
                     int vat = Integer.parseInt(parent.getSelectedItem().toString());
                     recalculateGross(vat);
-                    dataSet.get(position).setVAT(vat);
+                    dataSet.get(holder.getAdapterPosition()).setVAT(vat);
                 } catch (NumberFormatException | NullPointerException e) {
                     Log.e("Spinner", e.getMessage());
                 }

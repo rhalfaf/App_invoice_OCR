@@ -115,7 +115,7 @@
         android:layout_marginEnd="5dp"
         android:background="@drawable/text_field"
         android:ems="10"
-        android:inputType="textPostalAddress"
+        android:inputType="number|phone"
         android:minHeight="36dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -173,14 +173,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <CheckBox
-        android:id="@+id/cbSaveSeller"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSellerBankAccountNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,7 +53,6 @@ public class Seller {
     }
     public Seller(String name, String NIP, String address, String postal_code, String city, String bank_account) {
         this(name,NIP, address,postal_code,city,bank_account, null,null,null,null,null);
-
     }
 
     public void setSellerId(long sellerId) {
@@ -147,4 +146,6 @@ public class Seller {
     public void setFax(String fax) {
         this.fax = fax;
     }
+
+
 }

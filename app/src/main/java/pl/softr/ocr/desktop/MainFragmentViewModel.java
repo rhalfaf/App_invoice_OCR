@@ -9,15 +9,15 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import pl.softr.ocr.database.entity.CompleteInvoice;
-import pl.softr.ocr.database.repositories.InvoiceRepository;
+import pl.softr.ocr.database.repositories.Repository;
 
 public class MainFragmentViewModel extends AndroidViewModel {
 
-    private InvoiceRepository repository;
+    private Repository repository;
 
     public MainFragmentViewModel(@NonNull Application application) {
         super(application);
-        repository = new InvoiceRepository(getApplication());
+        repository = new Repository(getApplication());
     }
 
     public LiveData<List<CompleteInvoice>> getAllInvoices() {

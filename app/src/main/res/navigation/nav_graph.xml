@@ -20,6 +20,11 @@
             android:id="@+id/show_invoice"
             app:destination="@id/addInvoice2">
         </action>
+        <action
+            android:id="@+id/action_mainActivityFragment_to_contractorsListFragment"
+            app:destination="@id/contractorsListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/invoiceMainView2"
@@ -36,4 +41,9 @@
             app:argType="long"
             android:defaultValue="0L" />
     </fragment>
+    <fragment
+        android:id="@+id/contractorsListFragment"
+        android:name="pl.softr.ocr.contractors.ContractorsListFragment"
+        android:label="Kontrahenci"
+        tools:layout="@layout/fragment_contractors_list" />
 </navigation>
